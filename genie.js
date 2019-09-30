@@ -267,8 +267,9 @@ function InstascanPlus() {
 	function collect() {
 		b = [];
 		for (i = li.length - 1; i > 0; i--) {
-			li[i].innerHTML = li[i].title.replace(/\?/g, '').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
-			b.push(li[i].innerHTML);
+			var txt = li[i].title.replace(/\?/g, '').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
+			b.push(txt);
+			li[i].innerHTML = txt;
 			f = b.join(' \n');
 			c = d.getElementById('genie');
 		}
