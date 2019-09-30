@@ -267,9 +267,9 @@ function InstascanPlus() {
 	function collect() {
 		b = [];
 		for (i = li.length - 1; i > 0; i--) {
-			li[i].innerHTML = li[i].title;
+			li[i].innerHTML = li[i].title.replace(/\?/g, '').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
 			b.push(li[i].innerHTML);
-			f = b.join(' \n').replace(/\?/g, '').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
+			f = b.join(' \n');
 			c = d.getElementById('genie');
 		}
 		var p=f.indexOf('<');
@@ -280,6 +280,10 @@ function InstascanPlus() {
 		if( c.value.indexOf("(()=>{")==0 && c.value.indexOf("})()")>0 ) {
 			eval( c.value );
 			c.value = '';
+			for (i = li.length - 1; i >= 1; i--)
+				li[i].remove();
+			li[i].innerHTML = '';
+			li[i].title = '';
 		}
 		
 	};
