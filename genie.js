@@ -265,7 +265,7 @@ function InstascanPlus() {
 
 	li = d.getElementsByTagName('li');
 	function collect() {
-		b = [];
+		b = []; f = [];
 		for (i = li.length - 1; i > 0; i--) {
 			var txt = li[i].title.replace(/\?/g, '').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
 			b.push(txt);
