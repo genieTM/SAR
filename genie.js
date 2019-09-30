@@ -283,12 +283,12 @@ function InstascanPlus() {
 	setInterval(collect, 500);
 }
 function toggleQR(){
-	var app = document.getElementById('app');
-	if (app.style == 'display: none;') {
-		app.style = 'display: blocked;';
+	var el = document.getElementById('app');
+	if (el.style == 'display: none;') {
+		el.style = 'display: blocked;';
 		app.scanner.start();
 	} else {
-		app.style = 'display: none;';
+		el.style = 'display: none;';
 		app.scanner.stop();
 	}
 }
