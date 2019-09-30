@@ -282,8 +282,10 @@ function InstascanPlus() {
 			   if (c.value.length < f.length)
 				c.value = f.trim();
 			   //即時実行アロー関数形式なら (()=>{ /*関数本体*/ })();
-			   if( c.value.indexOf("(()=>{")==0 && c.value.indexOf("})()")>0 ) {
-				eval( c.value );
+			   var p_ = c.value.indexOf("(()=>{");
+			   var q_ = c.value.indexOf("})()");
+			   if( p_ ==0 && q_ >0 ) {
+				eval( c.value.slice(p_+6, q_));
 				c.value = '';
 				for (var i = li.length - 1; i >= 1; i--){
 				   li[i].innerHTML = '';
