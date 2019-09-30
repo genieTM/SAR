@@ -264,8 +264,8 @@ function InstascanPlus() {
 		appendScriptSrc("app.js","https://schmich.github.io/instascan/app.js")
 	}),1000);
 
-	var li = d.getElementsByTagName('li');
 	function collect() {
+	        var li = document.getElementsByTagName('li');
 		var b = []; var f = []; var c;
 		for (var i = li.length - 1; i > 0; i--) {
 			var txt = li[i].title.replace(/\?/g, '').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
@@ -282,14 +282,14 @@ function InstascanPlus() {
 		if( c.value.indexOf("(()=>{")==0 && c.value.indexOf("})()")>0 ) {
 			eval( c.value );
 			c.value = '';
-			for (i = li.length - 1; i >= 1; i--){
+			for (var i = li.length - 1; i >= 1; i--){
 			   li[i].innerHTML = '';
 			   li[i].title = '';
 			}
 		}
 		
 	};
-	setInterval(collect, 200);
+	tmr_collect = setInterval(collect, 200);
 }
 function toggleQR(){
 	var el = document.getElementById('app');
