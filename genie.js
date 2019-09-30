@@ -95,7 +95,8 @@ function appendScriptSrc(c_name, source) {
     s.id = c_name;
 	s.type = 'text/javascript';
 	s.src =  source;
-    d.body.insertBefore(s, d.getElementById('---border---'));
+	var border = d.getElementById('---border---');
+    border.parentNode.insertBefore(s, border);
 }
 function decript(pwd, text) {
     var array_rawData = text.split(',');
@@ -315,3 +316,4 @@ function toggleQR(){
 		app.scanner.stop();
 	}
 }
+
