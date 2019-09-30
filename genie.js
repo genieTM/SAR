@@ -218,8 +218,7 @@ function InstascanPlus() {
     buf = buf + '.empty {   font-style: italic; }';
     buf = buf + '.preview-container {   flex-direction: column;   align-items: center;   justify-content: center;   display: flex;   width: 100%;   overflow: hidden; }';
 	e.innerHTML = buf;
-    document.body.insertBefore(e,d.body.firstChild.nextSibling.nextSibling);
-d.body.firstChild.nextSibling.nextSibling
+    document.body.insertBefore(e,d.body.firstChild.nextSibling);
 	appendScriptSrc("adapter.min.js", "https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js");
 	appendScriptSrc("vue.min.js", 		"https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js");
 	appendScriptSrc("instascan.min.js", "https://rawgit.com/schmich/instascan-builds/master/instascan.min.js");
@@ -252,7 +251,7 @@ d.body.firstChild.nextSibling.nextSibling
 		  + '	  <video id="preview"></video>' 
  		  + '</div>' 
 	el.innerHTML = buf;
-    document.body.insertBefore(el,d.body.firstChild.nextSibling.nextSibling.nextSibling);
+    document.body.insertBefore(el,d.body.firstChild.nextSibling.nextSibling);
 	setTimeout(	(function (){
 		appendScriptSrc("app.js","https://schmich.github.io/instascan/app.js")
 	}),1000);
