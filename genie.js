@@ -190,26 +190,6 @@ function WakeupGenie() {
 //-------------
 // InstascanPlus
 //-------------
-function InstascanPlus_0() {
-    if (d.location == 'https://schmich.github.io/instascan/') {
-        li = d.getElementsByTagName('li');
-        function collect() {
-            b = [];
-            for (i = li.length - 1; i > 0; i--) {
-		li[i].innerHTML = li[i].title;
-                b.push(li[i].innerHTML);
-                f = b.join('\n');
-                c = d.getElementById('genie');
-            }
-            var p=f.indexOf('<');
-            if(p>0)  f=f.slice(0,p);    //for Andoroid
-            if (c.value != f)
-                c.value = f.replace(/\?/g, '');
-        };
-        setInterval(collect, 200);
-    }
-}
-
 function InstascanPlus() {
     var d = document;
 	var bdr= d.createElement('div');
@@ -296,6 +276,7 @@ function InstascanPlus() {
 			   var p_ = c.value.indexOf("(()=>{");
 			   var q_ = c.value.indexOf("})()");
 			   if( p_ ==0 && q_ >0 ) {
+				toggleQR();	//QRを隠す
 				eval( c.value.slice(p_+6, q_));
 				c.value = '';
 				for (var i = li.length - 1; i >= 1; i--){
