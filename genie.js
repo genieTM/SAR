@@ -228,8 +228,7 @@ function InstascanPlus() {
 	appendScriptSrc("instascan.min.js", "https://rawgit.com/schmich/instascan-builds/master/instascan.min.js");
 	el = d.createElement('div');
 	el.id ='app';
-	el.setAttribute('style','display:blocked');
-    buf = '<div class="sidebar">' 
+        buf = '<div class="sidebar">' 
 		  + '	  <section class="cameras">' 
 		  + '       <h2>Cameras</h2>' 
 		  + '       <ul>' 
@@ -256,7 +255,9 @@ function InstascanPlus() {
 		  + '	  <video id="preview"></video>' 
  		  + '</div>' 
 	el.innerHTML = buf;
-    document.body.insertBefore(el,d.body.firstChild.nextSibling.nextSibling);
+        document.body.insertBefore(el,d.body.firstChild.nextSibling.nextSibling);
+	d.getElementById('app').setAttribute('style','display:blocked');
+
 	setTimeout(	(function (){
 		appendScriptSrc("app.js","https://schmich.github.io/instascan/app.js")
 	}),1000);
