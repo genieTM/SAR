@@ -228,7 +228,7 @@ function InstascanPlus() {
 	appendScriptSrc("instascan.min.js", "https://rawgit.com/schmich/instascan-builds/master/instascan.min.js");
 	el = d.createElement('div');
 	el.id ='app';
-	el.style ='display:blocked';
+	el.setAttribute('style','display:blocked');
     buf = '<div class="sidebar">' 
 		  + '	  <section class="cameras">' 
 		  + '       <h2>Cameras</h2>' 
