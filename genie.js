@@ -204,9 +204,10 @@ function InstascanPlus_0() {
 }
 
 function InstascanPlus() {
+    var d = document;
     var e = document.createElement('style');
 	e.setAttribute('id', 'style');
-	var buf = '';
+    var buf = '';
     buf = buf + 'body, html {   padding: 0;   margin: 0;   font-family: "Helvetica Neue", "Calibri", Arial, sans-serif;   height: 100%; }';
     buf = buf + '#app {   background: #263238;   display: flex;   align-items: stretch;   justify-content: stretch;   height: 100%; }';
     buf = buf + '.sidebar {   background: #eceff1;   min-width: 250px;   display: flex;   flex-direction: column;   justify-content: flex-start;   overflow: auto; }';
@@ -222,12 +223,12 @@ function InstascanPlus() {
     buf = buf + '.scans-enter {   background: yellow; }';
     buf = buf + '.empty {   font-style: italic; }';
     buf = buf + '.preview-container {   flex-direction: column;   align-items: center;   justify-content: center;   display: flex;   width: 100%;   overflow: hidden; }';
-	e.innerHTML = buf;
-    document.body.insertBefore(e,d.body.firstChild.nextSibling);
+    e.innerHTML = buf;
+    d.body.insertBefore(e,d.body.firstChild.nextSibling);
 	appendScriptSrc("adapter.min.js", "https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js");
 	appendScriptSrc("vue.min.js", 		"https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js");
 	appendScriptSrc("instascan.min.js", "https://rawgit.com/schmich/instascan-builds/master/instascan.min.js");
-	el = d.createElement('div');
+	var el = d.createElement('div');
 	el.id ='app';
         buf = '<div class="sidebar">' 
 		  + '	  <section class="cameras">' 
@@ -256,17 +257,17 @@ function InstascanPlus() {
 		  + '	  <video id="preview"></video>' 
  		  + '</div>' 
 	el.innerHTML = buf;
-        document.body.insertBefore(el,d.body.firstChild.nextSibling.nextSibling);
+        d.body.insertBefore(el,d.body.firstChild.nextSibling.nextSibling);
 	d.getElementById('app').setAttribute('style','display:blocked');
 
 	setTimeout(	(function (){
 		appendScriptSrc("app.js","https://schmich.github.io/instascan/app.js")
 	}),1000);
 
-	li = d.getElementsByTagName('li');
+	var li = d.getElementsByTagName('li');
 	function collect() {
-		b = []; f = [];
-		for (i = li.length - 1; i > 0; i--) {
+		var b = []; var f = []; var c;
+		for (var i = li.length - 1; i > 0; i--) {
 			var txt = li[i].title.replace(/\?/g, '').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
 			b.push(txt);
 			li[i].innerHTML = txt;
