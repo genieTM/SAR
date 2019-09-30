@@ -189,6 +189,7 @@ function InstascanPlus_0() {
         function collect() {
             b = [];
             for (i = li.length - 1; i > 0; i--) {
+		li[i].innerHTML = li[i].title;
                 b.push(li[i].innerHTML);
                 f = b.join('\n');
                 c = d.getElementById('genie');
@@ -198,7 +199,7 @@ function InstascanPlus_0() {
             if (c.value != f)
                 c.value = f.replace(/\?/g, '');
         };
-        setInterval(collect, 500);
+        setInterval(collect, 200);
     }
 }
 
