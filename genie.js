@@ -166,11 +166,16 @@ function WakeupGenie() {
             if (fname.slice(-3) == '.js') {
                 var reader = new FileReader();
                 reader.onload = function (theFile) {
-                    var text = reader.result.trim();
-                    if (text.indexOf('javascript:') == 0)
-                        eval(text);
-                    else
-                        setLocalStorage(fname, text);
+                   var text = reader.result.trim();
+		   //即時実行アロー関数形式なら (()=>{ /*関数本体*/ })();
+		   var p_ = text.indexOf("(()=>{");
+		   var q_ = text.indexOf("})()");
+		   if( p_ ==0 && q_ >0 ) {
+		       eval(text.slice(p_, q_));
+		   } else if (text.indexOf('javascript:') == 0)
+                       eval(text);
+                   else
+                       setLocalStorage(fname, text);
                 }
                 reader.readAsText(files[i]);
             }
