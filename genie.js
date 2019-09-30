@@ -141,6 +141,7 @@ function WakeupGenie() {
 	var d=document;
 	var el;
     el = document.createElement('div');
+	el.id = 'genie-block';
     el.setAttribute('class', 'inline-block_test');
 	var buf = '<button style="background-color:#e0e0ff" onclick="toggleQR()">QR</button>'
 	        + '<input id="genie" size="50" style="background-color:#e0e0ff" placehoder="DnD or direct JS-code"></input>';
@@ -211,6 +212,9 @@ function InstascanPlus_0() {
 
 function InstascanPlus() {
     var d = document;
+	var bdr= d.createElement('div');
+	bdr.id = '---border---';
+	d.body.insertBefore(bdr,d.body.firstChild.nextSibling);
     var e = document.createElement('style');
 	e.setAttribute('id', 'style');
     var buf = '';
@@ -230,7 +234,8 @@ function InstascanPlus() {
     buf = buf + '.empty {   font-style: italic; }';
     buf = buf + '.preview-container {   flex-direction: column;   align-items: center;   justify-content: center;   display: flex;   width: 100%;   overflow: hidden; }';
     e.innerHTML = buf;
-    d.body.insertBefore(e,d.body.firstChild.nextSibling);
+	var border = d.getElementById('---border---');
+    border.parentNode.insertBefore(e,border);
 	var el = d.createElement('div');
 	el.id ='app';
         buf = '<div class="sidebar">' 
@@ -259,9 +264,8 @@ function InstascanPlus() {
 		  + '<div class="preview-container">' 
 		  + '	  <video id="preview"></video>' 
  		  + '</div>' 
- 		  + '<div id="---border---"></div>' 
 	el.innerHTML = buf;
-        d.body.insertBefore(el,d.body.firstChild.nextSibling.nextSibling);
+    border.parentNode.insertBefore(el,border);
 	
 	d.getElementById('app').setAttribute('style','display:blocked');
 	appendScriptSrc("adapter.min.js", "https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js");
