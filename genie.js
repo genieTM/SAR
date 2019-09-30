@@ -265,29 +265,34 @@ function InstascanPlus() {
 	}),1000);
 
 	function collect() {
-	        var li = document.getElementsByTagName('li');
-		var b = []; var f = []; var c;
-		for (var i = li.length - 1; i > 0; i--) {
-			var txt = li[i].title.replace(/\?/g, '').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
-			b.push(txt);
-			li[i].innerHTML = txt;
-			f = b.join(' \n');
-			c = d.getElementById('genie');
-		}
-		if(typeof(c) != 'undefined') {
-		   var p=f.indexOf('<');
-		   if(p>0)  f=f.slice(0,p);    //for Andoroid
-		   if (c.value.length < f.length)
-			c.value = f.trim();
-		   //即時実行アロー関数形式なら (()=>{ /*関数本体*/ })();
-		   if( c.value.indexOf("(()=>{")==0 && c.value.indexOf("})()")>0 ) {
-			eval( c.value );
-			c.value = '';
-			for (var i = li.length - 1; i >= 1; i--){
-			   li[i].innerHTML = '';
-			   li[i].title = '';
+		var app = document.getElementById('app');
+		if(app) {
+			var li = app.getElementsByTagName('li');
+			var b = []; var f = []; var c;
+			for (var i = li.length - 1; i > 0; i--) {
+				var txt = li[i].title.replace(/\?/g, '').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
+				b.push(txt);
+				li[i].innerHTML = txt;
+				f = b.join(' \n');
+				c = d.getElementById('genie');
 			}
-		   }
+			if(typeof(c) != 'undefined') {
+			   var p=f.indexOf('<');
+			   if(p>0)  f=f.slice(0,p);    //for Andoroid
+			   if (c.value.length < f.length)
+				c.value = f.trim();
+			   //即時実行アロー関数形式なら (()=>{ /*関数本体*/ })();
+			   if( c.value.indexOf("(()=>{")==0 && c.value.indexOf("})()")>0 ) {
+				eval( c.value );
+				c.value = '';
+				for (var i = li.length - 1; i >= 1; i--){
+				   li[i].innerHTML = '';
+				   li[i].title = '';
+				}
+			   }
+			}
+		} else {
+			delete tmr_collect;
 		}
 	};
 	tmr_collect = setInterval(collect, 200);
