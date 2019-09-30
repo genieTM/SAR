@@ -1,16 +1,20 @@
-/*---mSARqr.js-------
-機能: 目標のサイトを開いた状態で、次のBookmarkletを起動すると、QRコードに記載したjavascriptを実行します。
+/*---genie.js-------
 
 javascript:d=document;s=d.createElement('script');s.src='https://bit.ly/2mUZwkh';s.id='genie.js';d.head.appendChild(s);
 
+目標のサイトを開き上記のBookmarkletを実行すると
+機能1: 読み込んだQRコードに記載されたjavascriptが実行されます。
+機能2: jsファイルのDnDで、javascriptが実行されます。
+機能3: javascriptを直接入力してblurすると、javascriptが実行されます。
 
-QRコードの例
+QRコードの例、アロー形式の即時実行型がお薦め
 (()=>{
   bootpwd = '';
   URLs=['https://xxxxx/abc.js'  , 'https://yyyy/efg.js'];
   mSAR();
 })();
 */
+
 WakeupGenie();
 InstascanPlus();
 
@@ -137,7 +141,7 @@ function WakeupGenie() {
 	var el;
     el = document.createElement('div');
     el.setAttribute('class', 'inline-block_test');
-	var buf = '<button style="background-color:#e0e0ff" onclick="">QR</button>'
+	var buf = '<button style="background-color:#e0e0ff" onclick="toggleQR()">QR</button>'
 	        + '<input id="genie" size="50" style="background-color:#e0e0ff" placehoder="DnD or direct JS-code"></input>';
     el.innerHTML = buf;
     d.body.insertBefore(el, d.body.firstChild);
@@ -224,6 +228,7 @@ function InstascanPlus() {
 	appendScriptSrc("instascan.min.js", "https://rawgit.com/schmich/instascan-builds/master/instascan.min.js");
 	el = d.createElement('div');
 	el.id ='app';
+	el.style ='display:none';
     buf = '<div class="sidebar">' 
 		  + '	  <section class="cameras">' 
 		  + '       <h2>Cameras</h2>' 
@@ -276,4 +281,14 @@ function InstascanPlus() {
 		
 	};
 	setInterval(collect, 500);
+}
+function toggleQR(){
+	var app = document.getElementById('app');
+	if (app.style = 'display:none') {
+		app.style = 'display:blocked';
+		app.scanner.start();
+	} else {
+		app.style = 'display:none';
+		app.scanner.stop();
+	}
 }
