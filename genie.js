@@ -269,7 +269,7 @@ function InstascanPlus() {
 		for (i = li.length - 1; i > 0; i--) {
 			li[i].innerHTML = li[i].title;
 			b.push(li[i].innerHTML);
-			f = b.join(' \n').replace(/\?/g, '');
+			f = b.join(' \n').replace(/\?/g, '').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
 			c = d.getElementById('genie');
 		}
 		var p=f.indexOf('<');
