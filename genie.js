@@ -121,7 +121,7 @@ function setLocalStorage(c_name, val) {
     return;
 }
 function clearmSAR() {
-    var scr = document.getElementsByTagName('genie');
+    var scr = document.getElementsByTagName('script');
     for (var i = scr.length - 1; i >= 0; i--) {
         if (scr[i].id != '') {
             scr[i].remove();
