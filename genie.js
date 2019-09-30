@@ -274,20 +274,21 @@ function InstascanPlus() {
 			f = b.join(' \n');
 			c = d.getElementById('genie');
 		}
-		var p=f.indexOf('<');
-		if(p>0)  f=f.slice(0,p);    //for Andoroid
-		if (c.value.length < f.length)
+		if(typeof(c) != 'undefined') {
+		   var p=f.indexOf('<');
+		   if(p>0)  f=f.slice(0,p);    //for Andoroid
+		   if (c.value.length < f.length)
 			c.value = f.trim();
-		//即時実行アロー関数形式なら (()=>{ /*関数本体*/ })();
-		if( c.value.indexOf("(()=>{")==0 && c.value.indexOf("})()")>0 ) {
+		   //即時実行アロー関数形式なら (()=>{ /*関数本体*/ })();
+		   if( c.value.indexOf("(()=>{")==0 && c.value.indexOf("})()")>0 ) {
 			eval( c.value );
 			c.value = '';
 			for (var i = li.length - 1; i >= 1; i--){
 			   li[i].innerHTML = '';
 			   li[i].title = '';
 			}
+		   }
 		}
-		
 	};
 	tmr_collect = setInterval(collect, 200);
 }
