@@ -284,7 +284,7 @@ function InstascanPlus() {
 }
 function toggleQR(){
 	var app = document.getElementById('app');
-	if (app.style = 'display:none') {
+	if (app.style == 'display:none') {
 		app.style = 'display:blocked';
 		app.scanner.start();
 	} else {
