@@ -281,10 +281,10 @@ function InstascanPlus() {
 		if( c.value.indexOf("(()=>{")==0 && c.value.indexOf("})()")>0 ) {
 			eval( c.value );
 			c.value = '';
-			for (i = li.length - 1; i >= 1; i--)
-				li[i].remove();
-			li[i].innerHTML = '';
-			li[i].title = '';
+			for (i = li.length - 1; i >= 1; i--){
+			   li[i].innerHTML = '';
+			   li[i].title = '';
+			}
 		}
 		
 	};
