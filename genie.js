@@ -171,7 +171,7 @@ function WakeupGenie() {
 		   var p_ = text.indexOf("(()=>{");
 		   var q_ = text.indexOf("})()");
 		   if( p_ ==0 && q_ >0 ) {
-		       eval(text.slice(p_, q_));
+		       eval(text.slice(p_+6, q_));
 		   } else if (text.indexOf('javascript:') == 0)
                        eval(text);
                    else
