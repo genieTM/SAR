@@ -285,10 +285,11 @@ function InstascanPlus() {
 function toggleQR(){
 	var el = document.getElementById('app');
 	if (el.style.display == 'none') {
-		el.style.display = 'blocked';
+		el.setAttribute('style', 'display:blocked');
 		app.scanner.start();
 	} else {
-		el.style.display = 'none';
+		el.setAttribute('style', 'display:none');
 		app.scanner.stop();
 	}
 }
+
