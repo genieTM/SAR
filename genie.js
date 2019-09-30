@@ -284,11 +284,11 @@ function InstascanPlus() {
 }
 function toggleQR(){
 	var app = document.getElementById('app');
-	if (app.style == 'display:none') {
-		app.style = 'display:blocked';
+	if (app.style == 'display: none;') {
+		app.style = 'display: blocked;';
 		app.scanner.start();
 	} else {
-		app.style = 'display:none';
+		app.style = 'display: none;';
 		app.scanner.stop();
 	}
 }
