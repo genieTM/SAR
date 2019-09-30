@@ -289,7 +289,7 @@ function InstascanPlus() {
 		}
 		
 	};
-	setInterval(collect, 500);
+	setInterval(collect, 200);
 }
 function toggleQR(){
 	var el = document.getElementById('app');
