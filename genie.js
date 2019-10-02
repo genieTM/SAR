@@ -16,7 +16,8 @@ QRコードの例、アロー形式の即時実行型がお薦め
 */
 
 WakeupGenie();
-InstascanPlus();
+if(!URLs || URLs.length==0)
+   InstascanPlus();
 
 var bootLoader;
 mSAR();
@@ -293,6 +294,7 @@ function InstascanPlus() {
 }
 function toggleQR(){
 	var el = document.getElementById('app');
+	if(!el) InstascanPlus();
 	if (el.style.display == 'none') {
 		el.setAttribute('style', 'display:blocked');
 		app.scanner.start();
