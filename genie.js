@@ -16,7 +16,9 @@ QRコードの例、アロー形式の即時実行型がお薦め
 */
 
 WakeupGenie();
-if(!URLs || URLs.length==0)
+if(!URLs)
+   InstascanPlus();
+else if(URLs.length==0)
    InstascanPlus();
 
 var bootLoader;
