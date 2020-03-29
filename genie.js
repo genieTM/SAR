@@ -17,7 +17,7 @@ Genie();
 var bootLoader;
 var Short_Cut = {};
 var speakBuff = [];
-var genieOrder= ['pasteTo("genie")'];
+var genieHomeWork= ['pasteTo("genie")'];
 //====Genie===================
 Genie();		//Genie Loader
 WakeupGenie();
@@ -108,7 +108,11 @@ function appendScript(c_name, source) {
     s.charset = 'UTF-8';
     s.innerHTML = source;
     //  d.head.appendChild(s);  //---headにするとメモリーの少ない機種ではフリーズする
-    d.body.appendChild(s); //---bodyなら問題ない
+	try{
+		d.body.appendChild(s); //---bodyなら問題ない
+	}catch{
+		console.log('appendScript_Err: '+c_name+'\r\n');
+	}
 }
 function appendScriptSrc(c_name, source) {
     var d = document;
@@ -158,7 +162,7 @@ function clearGenie() {
 //----------
 // Genie serves what you wish.
 //----------
-
+// position:absolute; top:-20px; left:0px;width:4%; height:20px;
 var lastCmd = '';
 function WakeupGenie() {
     var d = document;
@@ -166,8 +170,11 @@ function WakeupGenie() {
     el = document.createElement('div');
     el.id = 'genie-block';
     el.setAttribute('style', 'width:100%');
-    var buf ='<input id="GenieHome" type="button" onclick="execGenieOrder()" value=" " '
-			+'style="width:4%"></input><input id="genie" style="width:96%; background-color:#e0e0ff"></input>';
+    var buf ='<input id="GenieHome" type="button" onclick="execGenieHomeWork()" value=" " '
+			+'style="z-index:-10000; position:absolute; top:2px; left:0px;width:30px; height:20px; ">'
+			+ '</input><input id="genie" style="z-index:-10000; position:absolute; left:30px;top:0px;width:95%; height:20px; background-color:#e0e0ff"></input>';
+//    var buf ='<input id="GenieHome" type="button" onclick="execGenieHomeWork()" value=" " '
+//			+'style="width:4%"></input><input id="genie" style="width:95%; background-color:#e0e0ff"></input>';
     el.innerHTML = buf;
     d.body.insertBefore(el, d.body.firstChild);
 
@@ -235,10 +242,29 @@ function WakeupGenie() {
         }
     });
 }
-
-function execGenieOrder() {
-	for( var i=0; i<genieOrder.length; i++ )
-		eval( genieOrder[i] );
+function clearLStorage_js(){
+	var sKey,js=[]; 
+	for(var i=0; sKey = window.localStorage.key(i); i++)
+		if(sKey.slice(-3)=='.js') js.push(sKey);
+		for(var i=js.length-1; i>=0; i--)
+			localStorage.removeItem(js[i]);
+}
+function showHideGenie() {
+	var _genie=document.getElementById('genie');
+	var _genieHome=document.getElementById('GenieHome');
+	if(_genie.style.zIndex<0){
+		_genie.style.backgroundColor="#e0e0ff";
+		_genie.style.zIndex=100;
+		_genieHome.style.zIndex=100;
+	}else{
+		_genie.style.backgroundColor="#000000";
+		_genie.style.zIndex=-100;
+		_genieHome.style.zIndex=-100;
+	}
+}
+function execGenieHomeWork() {
+	for( var i=0; i<genieHomeWork.length; i++ )
+		eval( genieHomeWork[i] );
 }
 function getUserType() {
     var ua = ["iPod", "iPad", "iPhone","Android"];
@@ -253,16 +279,16 @@ function getUserType() {
 //=====short cuts====
 function initShortCut() {
     addShortCut('help', '/*---ヘルプ表示---*/      showShortCut()');
+	addShortCut('alt+shift+g ', '/*genie toggle*/    showHideGenie()');
 }
 function addShortCut(keys, func) {
-	if(keys.indexOf(' ')>=0)	addShortCut_Org(keys, func);
+	if(keys.indexOf(' ')>=0)	addShortCut_Org(keys.trim(), func);
 	else addShortCut_Org(keys.split('').join(' '), func);	
 }
 function addShortCut_Org(keys, func) {
-    eval("Mousetrap.bind('keys',function(e){ fnc })".replace('keys', keys).replace('fnc', func));
-    Short_Cut[keys] = func;
+		eval("Mousetrap.bind('keys',function(e){ fnc })".replace('keys', keys).replace('fnc', func));
+		Short_Cut[keys] = func;
 }
-
 function showShortCut() {
     var buf = "";
     for (var key in Short_Cut){
