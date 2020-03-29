@@ -143,6 +143,15 @@ function decript(pwd, text) {
         }, key128Bits500Iterations, options);
     return decrypted.toString(CryptoJS.enc.Utf8);
 }
+
+function getLocalStorage(c_name) {
+    var rtn = localStorage.getItem(c_name);
+    if (rtn == null) return '';
+    if (rtn.charAt(0) == '[' || rtn.charAt(0) == '{')
+        return JSON.parse(rtn);
+    return rtn;
+}
+
 function setLocalStorage(c_name, val) {
     if (typeof(val) == "object")
         localStorage.setItem(c_name, JSON.stringify(val));
