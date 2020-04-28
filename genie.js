@@ -262,11 +262,15 @@ function clearLStorage_js(){
 }
 function showHideGenie() {
 	var _genie=document.getElementById('genie');
+	var _tglgenie=document.getElementById('tglGenie');
 	if(_genie.style.zIndex<0){
+		_tglgenie.style.backgroundColor="#e0e0ff";
+		_tglgenie.style.zIndex=101;
 		_genie.style.backgroundColor="#e0e0ff";
 		_genie.style.zIndex=101;
 	}else{
 		_genie.style.zIndex=-101;
+		_tglgenie.style.zIndex=-101;
 	}
 }
 function getUserType() {
