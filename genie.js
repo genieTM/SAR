@@ -269,6 +269,7 @@ function showHideGenie() {
 		// _tglgenie.style.zIndex=101;
 	}else{
 		_genie.style.zIndex=-101;
+		_genie.style.backgroundColor="#000000";
 		// _tglgenie.style.zIndex=-101;
 	}
 }
