@@ -57,7 +57,12 @@ function Genie() {
     bootLoader = bootLoaderFunc();
     bootLoader.next();	
 }
-
+function popupGenie(msg,msec){
+    var genie=document.getElementById('genie'); 
+    genie.value = msg;
+    genie.style.zIndex=101;
+    setTimeout((()=>{var genie=document.getElementById('genie'); genie.value=''; genie.style.zIndex=-101;}),msec?msec:3000);
+}
 function  * bootLoaderFunc() {
     while (URLs.length > 0) {
         var url = URLs.shift();
@@ -178,7 +183,7 @@ function WakeupGenie() {
     el = document.createElement('div');
     el.id = 'genie-block';
     el.setAttribute('style', 'width:100%');
-    var buf ='<input id="genie" style="z-index:-10000; position:absolute; left:0px;top:0px;width:100%; height:20px; background-color:#e0e0ff"></input>';
+    var buf ='<input id="genie" style="z-index:-101; position:absolute; left:0px;top:-1px;width:100%; height:20px; background-color:#efefff"></input>';
     el.innerHTML = buf;
     d.body.insertBefore(el, d.body.firstChild);
 
@@ -259,7 +264,6 @@ function showHideGenie() {
 		_genie.style.backgroundColor="#e0e0ff";
 		_genie.style.zIndex=101;
 	}else{
-		_genie.style.backgroundColor="#000000";
 		_genie.style.zIndex=-101;
 	}
 }
@@ -273,7 +277,63 @@ function getUserType() {
     return i;	//PCでは 4　になる
 }
 
-//=====short cuts====
+//+===================+
+//+=== TASK Section =======+
+//+===================+
+// globals
+var task={};
+var TCB_S1={};
+var TCB_M1={}; 
+var TCB_M5={};
+// usage
+    // TCB_xxにtask_handlerを登録した後、TaskCreateする
+     // TCB_M1['changeChart'] = task_changeChart;
+     // if(task["task_M1"]==undefined)   TaskCreate(task_M1,  60000);
+     // if(task["task_M5"]==undefined)   TaskCreate(task_M5, 300000);
+     // if(task["task_S1"]==undefined)   TaskCreate(task_S1,   1000);
+
+function task_S1()
+{
+    if( ! isJpnMarketOpen()) return;
+     Object.keys(TCB_S1).forEach(key => TCB_S1[key]());     //TCB_S1に登録されたtaskを実行
+}
+function task_M1()
+{
+    if( ! isJpnMarketOpen()) return;
+     Object.keys(TCB_M1).forEach(key => TCB_M1[key]());     //TCB_M1に登録されたtaskを実行
+}
+function task_M5()
+{
+    if( ! isJpnMarketOpen()) return;
+     Object.keys(TCB_M5).forEach(key => TCB_M5[key]());     //TCB_M5に登録されたtaskを実行
+}
+
+//=============
+//=== TASK Common    
+//=============
+//const sleep      = msec => new Promise(resolve => setTimeout(resolve, msec));
+function TaskLoop(handler, step) {	
+	handler();  		// Callback
+	wait= Math.max(500, step - Date.now() % step);
+	task[handler.name]=setTimeout(TaskLoop, wait, handler, step);      		// Recursive
+}
+
+function TaskCreate(handler, step) {
+	var wait;	
+	if( task[handler.name]==undefined )
+		 wait = 500;	//初めての時は、とりあえずスタートさせる
+    else wait = Math.max(500, step - Date.now() % step);
+	task[handler.name] = setTimeout(TaskLoop, wait, handler, step);
+}
+
+function TaskDelete(handler){
+    clearInterval(task[handler.name]);
+    task[handler.name] == null;
+}
+
+//+===================+
+//+===   short cuts   =======+
+//+===================+
 function initShortCut() {
     addShortCut('help', '/*---ヘルプ表示---*/      showShortCut()');
 	addShortCut('alt+shift+g ', '/*genie toggle*/    showHideGenie()');
