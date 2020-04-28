@@ -17,7 +17,6 @@ Genie();
 var bootLoader;
 var Short_Cut = {};
 var speakBuff = [];
-var genieHomeWork= ['pasteTo("genie")'];
 //====Genie===================
 Genie();		//Genie Loader
 WakeupGenie();
@@ -179,11 +178,7 @@ function WakeupGenie() {
     el = document.createElement('div');
     el.id = 'genie-block';
     el.setAttribute('style', 'width:100%');
-    var buf ='<input id="GenieHome" type="button" onclick="execGenieHomeWork()" value=" " '
-			+'style="z-index:-10000; position:absolute; top:2px; left:0px;width:30px; height:20px; ">'
-			+ '</input><input id="genie" style="z-index:-10000; position:absolute; left:30px;top:0px;width:95%; height:20px; background-color:#e0e0ff"></input>';
-//    var buf ='<input id="GenieHome" type="button" onclick="execGenieHomeWork()" value=" " '
-//			+'style="width:4%"></input><input id="genie" style="width:95%; background-color:#e0e0ff"></input>';
+    var buf ='<input id="genie" style="z-index:-10000; position:absolute; left:0px;top:0px;width:100%; height:20px; background-color:#e0e0ff"></input>';
     el.innerHTML = buf;
     d.body.insertBefore(el, d.body.firstChild);
 
@@ -260,20 +255,13 @@ function clearLStorage_js(){
 }
 function showHideGenie() {
 	var _genie=document.getElementById('genie');
-	var _genieHome=document.getElementById('GenieHome');
 	if(_genie.style.zIndex<0){
 		_genie.style.backgroundColor="#e0e0ff";
-		_genie.style.zIndex=100;
-		_genieHome.style.zIndex=100;
+		_genie.style.zIndex=101;
 	}else{
 		_genie.style.backgroundColor="#000000";
-		_genie.style.zIndex=-100;
-		_genieHome.style.zIndex=-100;
+		_genie.style.zIndex=-101;
 	}
-}
-function execGenieHomeWork() {
-	for( var i=0; i<genieHomeWork.length; i++ )
-		eval( genieHomeWork[i] );
 }
 function getUserType() {
     var ua = ["iPod", "iPad", "iPhone","Android"];
