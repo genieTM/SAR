@@ -263,7 +263,7 @@ function showHideGenie() {
 	var _genie=document.getElementById('genie');
 	var _tglgenie=document.getElementById('tglGenie');
 	if(_genie.style.zIndex<0){
-		_tglgenie.style.backgroundColor="#efefff";
+		_tglgenie.style.backgroundColor="#fcfcfc";
 		_genie.style.backgroundColor="#efefff";
 		_genie.style.zIndex=101;
 		// _tglgenie.style.zIndex=101;
