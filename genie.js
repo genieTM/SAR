@@ -183,7 +183,9 @@ function WakeupGenie() {
     el = document.createElement('div');
     el.id = 'genie-block';
     el.setAttribute('style', 'width:100%');
-    var buf ='<input id="genie" style="z-index:-101; position:absolute; left:0px;top:-1px;width:100%; height:20px; background-color:#efefff"></input>';
+    var buf ='<input id="tglGenie" type="button" onclick="showHideGenie()" value="" '
+			+'style="z-index:-101; position:absolute; top:-1px; left:0px;width:5px; height:20px; ">'
+			+ '<input id="genie" style="z-index:-101; position:absolute; left:5px;top:-1px;width:100%; height:20px; background-color:#efefff"></input>';
     el.innerHTML = buf;
     d.body.insertBefore(el, d.body.firstChild);
 
