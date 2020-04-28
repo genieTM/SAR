@@ -72,7 +72,7 @@ function  * bootLoaderFunc() {
                 if (!!source) {
                     appendScript(name, source);
 					if (name == 'mousetrap.js')
-						setTimeout(initShortCut(), 1000);
+						setTimeout(initShortCut(), 500);
                     continue;
                 } else {
                     var oReq = new XMLHttpRequest();
