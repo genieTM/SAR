@@ -184,7 +184,7 @@ function WakeupGenie() {
     el.id = 'genie-block';
     el.setAttribute('style', 'width:100%');
     var buf ='<input id="tglGenie" type="button" onclick="showHideGenie()" value=" " '
-			+'style="z-index:-101; position:absolute; top:0px; left:0px;width:5px; height:24px; background-color:#efefff">'
+			+'style="z-index:101; position:absolute; top:0px; left:0px;width:3px; height:24px; background-color:#efefff">'
 			+ '<input id="genie" style="z-index:-101; position:absolute; left:8px;top:-1px;width:100%; height:20px; background-color:#efefff"></input>';
     el.innerHTML = buf;
     d.body.insertBefore(el, d.body.firstChild);
@@ -267,10 +267,10 @@ function showHideGenie() {
 		_tglgenie.style.backgroundColor="#efefff";
 		_genie.style.backgroundColor="#efefff";
 		_tglgenie.style.zIndex=101;
-		_genie.style.zIndex=101;
+//		_genie.style.zIndex=101;
 	}else{
 		_genie.style.zIndex=-101;
-		_tglgenie.style.zIndex=-101;
+//		_tglgenie.style.zIndex=-101;
 	}
 }
 function getUserType() {
