@@ -265,10 +265,10 @@ function showHideGenie() {
 	if(_genie.style.zIndex<0){
 		_tglgenie.style.backgroundColor="#fcfcfc";
 		_genie.style.backgroundColor="#efefff";
-		_genie.style.zIndex=101;
+		_genie.style.zIndex=110;
 		// _tglgenie.style.zIndex=101;
 	}else{
-		_genie.style.zIndex=-101;
+		_genie.style.zIndex=-110;
 		_genie.style.backgroundColor="#000000";
 		// _tglgenie.style.zIndex=-101;
 	}
