@@ -183,7 +183,7 @@ function WakeupGenie() {
     el = document.createElement('div');
     el.id = 'genie-block';
     el.setAttribute('style', 'width:100%');
-    var buf ='<input id="tglGenie" type="button" onclick="showHideGenie()" style="z-index:101;position:absolute;top:0px;left:0px;width: 9px;height: 26px;background-color:#fcfcfc;padding-left: 0px;padding-right: 0px;border-left-width: 1px;border-right-width: 1px;border-bottom-width: 1px;border-top-width: 1px;padding-top: 2px;">'
+    var buf ='<input id="tglGenie" type="button" onclick="showHideGenie()" style="z-index:101;position:absolute;top:0px;left:0px;width: 9px;height: 26px;background-color:#4169e1;padding-left: 0px;padding-right: 0px;border-left-width: 1px;border-right-width: 1px;border-bottom-width: 1px;border-top-width: 1px;padding-top: 2px;">'
 			+ '<input id="genie" style="z-index:-101; position:absolute; left:8px;top:-1px;width:100%; height:20px; color:#404040; background-color:#efefff"></input>';
     el.innerHTML = buf;
     d.body.insertBefore(el, d.body.firstChild);
