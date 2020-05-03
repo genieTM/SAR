@@ -359,7 +359,7 @@ function showShortCut() {
 			text = text.replace('/*','').replace('*/','');
         buf += "'" + key.replace(/ /g,'') + "' :   '" + text + "'\n";
 	}
-    popupGenie( 'ショートカット一覧を、クリップボードにコピーしました', 5);
+    popupGenie( 'ショートカット一覧を、クリップボードにコピーしました', 5000);
     setClipB( buf );
 }
 
