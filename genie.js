@@ -60,8 +60,8 @@ function Genie() {
 function popupGenie(msg,msec){
     var genie=document.getElementById('genie'); 
     genie.value = msg;
-    genie.style.zIndex=101;
-    setTimeout((()=>{var genie=document.getElementById('genie'); genie.value=''; genie.style.zIndex=-101;}),msec?msec:3000);
+    genie.style.zIndex=110;
+    setTimeout((()=>{var genie=document.getElementById('genie'); genie.value=''; genie.style.zIndex=-110;}),msec?msec:3000);
 }
 function  * bootLoaderFunc() {
     while (URLs.length > 0) {
