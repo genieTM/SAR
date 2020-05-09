@@ -60,6 +60,7 @@ function Genie() {
 function popupGenie(msg,msec){
     var genie=document.getElementById('genie'); 
     genie.value = msg;
+    genie.style.backgroundColor = "#efefff";
     genie.style.zIndex=110;
     setTimeout((()=>{var genie=document.getElementById('genie'); genie.value=''; genie.style.zIndex=-110;}),msec?msec:3000);
 }
@@ -273,6 +274,19 @@ function showHideGenie() {
 		// _tglgenie.style.zIndex=-101;
 	}
 }
+function showGenie() {
+	var _genie=document.getElementById('genie');
+	var _tglgenie=document.getElementById('tglGenie');
+    _tglgenie.style.backgroundColor="#4040ff";
+    _genie.style.backgroundColor="#efefff";
+    _genie.style.zIndex=110;
+}
+function hideGenie() {
+	var _genie=document.getElementById('genie');
+		_genie.style.zIndex=-110;
+		_genie.style.backgroundColor="#000000";
+}
+
 function getUserType() {
     var ua = ["iPod", "iPad", "iPhone","Android"];
     for (var i = 0; i < ua.length; i++) {
