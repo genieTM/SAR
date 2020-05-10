@@ -314,17 +314,17 @@ var TCB_M5={};
 
 function task_S1()
 {
-    if( ! isJpnMarketOpen()) return;
+    //if( ! isJpnMarketOpen()) return;
      Object.keys(TCB_S1).forEach(key => TCB_S1[key]());     //TCB_S1に登録されたtaskを実行
 }
 function task_M1()
 {
-    if( ! isJpnMarketOpen()) return;
+    //if( ! isJpnMarketOpen()) return;
      Object.keys(TCB_M1).forEach(key => TCB_M1[key]());     //TCB_M1に登録されたtaskを実行
 }
 function task_M5()
 {
-    if( ! isJpnMarketOpen()) return;
+    //if( ! isJpnMarketOpen()) return;
      Object.keys(TCB_M5).forEach(key => TCB_M5[key]());     //TCB_M5に登録されたtaskを実行
 }
 
