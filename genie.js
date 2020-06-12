@@ -164,6 +164,23 @@ function setLocalStorage(c_name, val) {
         localStorage.setItem(c_name, val);
     return;
 }
+function getSessionStorage(c_name) {
+    var rtn = sessionStorage.getItem(c_name);
+    if (rtn == null) return '';
+    if (rtn.charAt(0) == '[' || rtn.charAt(0) == '{')
+        return JSON.parse(rtn);
+    return rtn;
+}
+
+function setSessionStorage(c_name, val) {
+    if (typeof(val) == "object")
+        sessionStorage.setItem(c_name, JSON.stringify(val));
+    else
+        sessionStorage.setItem(c_name, val);
+    return;
+}
+
+
 function clearGenie() {
     var scr = document.getElementsByTagName('script');
     for (var i = scr.length - 1; i >= 0; i--) {
@@ -294,7 +311,7 @@ function getUserType() {
             return i;
         }
     }
-    return i;	//PCでは 4　になる
+    return i;	//PC, Kindleでは 4　になる
 }
 
 //+===================+
@@ -314,17 +331,14 @@ var TCB_M5={};
 
 function task_S1()
 {
-    //if( ! isJpnMarketOpen()) return;
      Object.keys(TCB_S1).forEach(key => TCB_S1[key]());     //TCB_S1に登録されたtaskを実行
 }
 function task_M1()
 {
-    //if( ! isJpnMarketOpen()) return;
      Object.keys(TCB_M1).forEach(key => TCB_M1[key]());     //TCB_M1に登録されたtaskを実行
 }
 function task_M5()
 {
-    //if( ! isJpnMarketOpen()) return;
      Object.keys(TCB_M5).forEach(key => TCB_M5[key]());     //TCB_M5に登録されたtaskを実行
 }
 
@@ -361,10 +375,6 @@ function initShortCut() {
 function addShortCut(keys, func) {
 	if(keys.indexOf(' ')>=0)	addShortCut_Org(keys.trim(), func);
 	else addShortCut_Org(keys.split('').join(' '), func);	
-}
-function addShortCut_Org(keys, func) {
-		eval("Mousetrap.bind('keys',function(e){ fnc })".replace('keys', keys).replace('fnc', func));
-		Short_Cut[keys] = func;
 }
 function showShortCut() {
     var buf = "";
