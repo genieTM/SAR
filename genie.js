@@ -376,6 +376,11 @@ function addShortCut(keys, func) {
 	if(keys.indexOf(' ')>=0)	addShortCut_Org(keys.trim(), func);
 	else addShortCut_Org(keys.split('').join(' '), func);	
 }
+function addShortCut_Org(keys, func) {
+		eval("Mousetrap.bind('keys',function(e){ fnc })".replace('keys', keys).replace('fnc', func));
+		Short_Cut[keys] = func;
+}
+
 function showShortCut() {
     var buf = "";
     for (var key in Short_Cut){
