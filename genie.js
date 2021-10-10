@@ -232,7 +232,7 @@ function WakeupGenie() {
                 reader.onload = function (theFile) {
                     var fname = this.fname;
                     var text = reader.result.trim();
-                    //即時実行アロー関数形式なら (()=>{ /*関数本体*/ })();
+                    //即時実行アロー関数形式なら (()=>{  })();
                     var p_ = text.indexOf("(()=>{");
                     var q_ = text.indexOf("})()");
                     if (p_ == 0 && q_ > 0) {
