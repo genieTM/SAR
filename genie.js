@@ -207,7 +207,7 @@ function WakeupGenie() {
     d.body.insertBefore(el, d.body.firstChild);
 
     genie = d.getElementById('genie');
-
+/*----------------------------------------------------------
     genie.addEventListener('dragenter', function (e) {
         e.stopPropagation();
         e.preventDefault();
@@ -270,6 +270,7 @@ function WakeupGenie() {
         }
     });
 }
+----------------------------------------------------------*/
 function clearLStorage_js(){
 	var sKey,js=[]; 
 	for(var i=0; sKey = window.localStorage.key(i); i++)
