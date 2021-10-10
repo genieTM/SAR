@@ -269,8 +269,8 @@ function WakeupGenie() {
             genie.value = '';
         }
     });
-}
 ----------------------------------------------------------*/
+}
 function clearLStorage_js(){
 	var sKey,js=[]; 
 	for(var i=0; sKey = window.localStorage.key(i); i++)
