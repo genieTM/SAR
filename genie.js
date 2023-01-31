@@ -21,28 +21,17 @@ var speakBuff = [];
 Genie();		//Genie Loader
 WakeupGenie();
 
-async function speak(txt, lang, volume, rate, pitch) {
-    if(txt.length>0) 	speakBuff.push(txt);
-    while(speakBuff.length>0) {
-            var uttr = new SpeechSynthesisUtterance(); 
-            uttr.text = speakBuff.shift();
-            if(lang==undefined)   uttr.lang   = 'ja-JP'; else uttr.lang  = lang;
-            if(volume==undefined) uttr.volume = 1.0    ; else uttr.volume= volume;
-            if(rate==undefined)   uttr.rate   = 1.0    ; else uttr.rate  = rate;
-            if(pitch==undefined)  uttr.pitch  = 1.0    ; else uttr.pitch = pitch;
-            await speechSynthesis.speak(uttr);
-    }
-}
-	
 function Genie() {
     /*暗号化データ解凍用libraryを最初にimport*/
     if (typeof(URLs) == 'undefined')
         URLs = [];
     if (!document.getElementById('aes.js')) {
-        URLs = ['https://qrde.github.io/SAR/crypt-js-3.1.2-aes.js',
-				'https://qrde.github.io/SAR/crypt-js-3.1.2-pbkdf2.js',
-				'https://qrde.github.io/SAR/mousetrap.js'
-				].concat(URLs);
+        URLs = ['https://qrde.github.io/SAR/mousetrap.js',
+		'https://cdn.jsdelivr.net/npm/crypto-js@4.0.0/core.min.js',
+		'https://cdn.jsdelivr.net/npm/crypto-js@4.0.0/cipher-core.min.js',
+		'https://cdn.jsdelivr.net/npm/crypto-js@4.0.0/aes.min.js',
+		'https://cdn.jsdelivr.net/npm/crypto-js@4.0.0/pbkdf2.min.js'
+		].concat(URLs);
     }
     //保存されたPWDがあれば、それを優先させる
     var lsPW = localStorage.getItem('bootpwd');
@@ -54,58 +43,21 @@ function Genie() {
         if (bootpwd.length > 0)
             localStorage.setItem('bootpwd', bootpwd);
 
-    bootLoader = bootLoaderFunc();
-    bootLoader.next();	
-}
-function popupGenie(msg,msec){
-    var genie=document.getElementById('genie'); 
-    genie.value = msg;
-    genie.style.backgroundColor = "#efefff";
-    genie.style.zIndex=110;
-    setTimeout((()=>{var genie=document.getElementById('genie'); genie.value=''; genie.style.zIndex=-110;}),msec?msec:3000);
-}
-function  * bootLoaderFunc() {
-    while (URLs.length > 0) {
-        var url = URLs.shift();
-        var name = url.slice(url.lastIndexOf('/') + 1);
-        if (typeof(nameExists) == 'undefined')
-            nameExists = {};
-        if (!nameExists[name]) {
-            nameExists[name] = true;
-            if (!document.getElementById(name)) {
-                var source = localStorage.getItem(name);
-                if (!!source) {
-                    appendScript(name, source);
-					if (name == 'mousetrap.js')
-						setTimeout(initShortCut(), 500);
-                    continue;
-                } else {
-                    var oReq = new XMLHttpRequest();
-                    oReq.addEventListener('load', reqListener);
-                    oReq.open('GET', url);
-                    oReq.send();
-                    yield;
-                }
-            }
-        }
-    }
+    downloadFiles();
 }
 
-function reqListener() {
-    var source = this.responseText;
-    if (source.slice(0, 2) != '//' && source.slice(0, 2) != '/*') {
-        try {
-            var txt = decript(bootpwd, source);
-            if (txt.length > 0)
-                source = txt;
-        } catch {};
-    }
-    var u = this.responseURL;
-    var name = u.slice(u.lastIndexOf('/') + 1);
-    appendScript(name, source);
-    localStorage.setItem(name, source);
-    bootLoader.next();
-};
+async function downloadFile(url) {
+  const response = await fetch(url);
+  const data = await response.blob();
+  localStorage.setItem(url, data);
+}
+
+async function downloadFiles() {
+  for (const url of URLs) {
+    await downloadFile(url);
+  }
+}
+
 function appendScript(c_name, source) {
     var d = document;
     var s = d.createElement('script');
@@ -128,25 +80,26 @@ function appendScriptSrc(c_name, source) {
     var border = d.getElementById('---border---');
     border.parentNode.insertBefore(s, border);
 }
-function decript(pwd, text) {
-    var array_rawData = text.split(',');
-    var salt = CryptoJS.enc.Hex.parse(array_rawData[0]);
-    var iv = CryptoJS.enc.Hex.parse(array_rawData[1]);
-    var encrypted_data = CryptoJS.enc.Base64.parse(array_rawData[2]);
-    var secret_passphrase = CryptoJS.enc.Utf8.parse(pwd);
-    var key128Bits500Iterations = CryptoJS.PBKDF2(secret_passphrase, salt, {
-            keySize: 128 / 8,
-            iterations: 500
-        });
-    var options = {
-        iv: iv,
-        mode: CryptoJS.mode.CBC,
-        padding: CryptoJS.pad.Pkcs7
-    };
-    var decrypted = CryptoJS.AES.decrypt({
-            'ciphertext': encrypted_data
-        }, key128Bits500Iterations, options);
-    return decrypted.toString(CryptoJS.enc.Utf8);
+
+async function encrypt(pwd, plainText) {
+  const salt = crypto.randomBytes(16);
+  const iv = crypto.randomBytes(16);
+  const key = pbkdf2Sync(pwd, salt, 500, 16, 'sha512');
+  const cipher = AES.createCipheriv('aes-128-cbc', key, iv);
+  let encrypted = cipher.update(plainText, 'utf8', 'base64');
+  encrypted += cipher.final('base64');
+  return `${salt.toString('hex')},${iv.toString('hex')},${encrypted}`;
+}
+
+async function decrypt(pwd, encryptedText) {
+  const [salt, iv, encrypted] = encryptedText.split(',');
+  const saltBuffer = Buffer.from(salt, 'hex');
+  const ivBuffer = Buffer.from(iv, 'hex');
+  const key = pbkdf2Sync(pwd, saltBuffer, 500, 16, 'sha512');
+  const decipher = AES.createDecipheriv('aes-128-cbc', key, ivBuffer);
+  let decrypted = decipher.update(encrypted, 'base64', 'utf8');
+  decrypted += decipher.final('utf8');
+  return decrypted;
 }
 
 function getLocalStorage(c_name) {
@@ -180,16 +133,28 @@ function setSessionStorage(c_name, val) {
     return;
 }
 
-
-function clearGenie() {
-    var scr = document.getElementsByTagName('script');
-    for (var i = scr.length - 1; i >= 0; i--) {
-        if (scr[i].id != '') {
-            scr[i].remove();
-            localStorage.removeItem(scr[i]);
-        }
-    }
+//
+function pasteTo(id){
+	if(navigator.clipboard){
+		navigator.clipboard.readText()
+		.then(function(text){
+			document.getElementById(id).value = text;
+		});
+	}
 }
+function setClipB(text){
+	if(navigator.clipboard)
+		navigator.clipboard.writeText(text);
+}
+	
+function clearLStorage_js(){
+	var sKey,js=[]; 
+	for(var i=0; sKey = window.localStorage.key(i); i++)
+		if(sKey.slice(-3)=='.js') js.push(sKey);
+		for(var i=js.length-1; i>=0; i--)
+			localStorage.removeItem(js[i]);
+}
+
 //----------
 // Genie serves what you wish.
 //----------
@@ -208,13 +173,7 @@ function WakeupGenie() {
 
     genie = d.getElementById('genie');
 }
-function clearLStorage_js(){
-	var sKey,js=[]; 
-	for(var i=0; sKey = window.localStorage.key(i); i++)
-		if(sKey.slice(-3)=='.js') js.push(sKey);
-		for(var i=js.length-1; i>=0; i--)
-			localStorage.removeItem(js[i]);
-}
+
 function showHideGenie() {
 	var _genie=document.getElementById('genie');
 	var _tglgenie=document.getElementById('tglGenie');
@@ -242,14 +201,22 @@ function hideGenie() {
 		_genie.style.backgroundColor="#000000";
 }
 
-function getUserType() {
-    var ua = ["iPod", "iPad", "iPhone","Android"];
-    for (var i = 0; i < ua.length; i++) {
-        if (navigator.userAgent.indexOf(ua[i]) > 0) {
-            return i;
+function clearGenie() {
+    var scr = document.getElementsByTagName('script');
+    for (var i = scr.length - 1; i >= 0; i--) {
+        if (scr[i].id != '') {
+            scr[i].remove();
+            localStorage.removeItem(scr[i]);
         }
     }
-    return i;	//PC, Kindleでは 4　になる
+}
+
+function popupGenie(msg,msec){
+    var genie=document.getElementById('genie'); 
+    genie.value = msg;
+    genie.style.backgroundColor = "#efefff";
+    genie.style.zIndex=110;
+    setTimeout((()=>{var genie=document.getElementById('genie'); genie.value=''; genie.style.zIndex=-110;}),msec?msec:3000);
 }
 
 //+===================+
@@ -266,7 +233,6 @@ var TCB_M5={};
      // if(task["task_M1"]==undefined)   TaskCreate(task_M1,  60000);
      // if(task["task_M5"]==undefined)   TaskCreate(task_M5, 300000);
      // if(task["task_S1"]==undefined)   TaskCreate(task_S1,   1000);
-
 function task_S1()
 {
      Object.keys(TCB_S1).forEach(key => TCB_S1[key]());     //TCB_S1に登録されたtaskを実行
@@ -284,23 +250,20 @@ function task_M5()
 //=== TASK Common    
 //=============
 //const sleep      = msec => new Promise(resolve => setTimeout(resolve, msec));
-function TaskLoop(handler, step) {	
-	handler();  		// Callback
-	wait= Math.max(500, step - Date.now() % step);
-	task[handler.name]=setTimeout(TaskLoop, wait, handler, step);      		// Recursive
+function TaskLoop(handler, step) {
+  handler();
+  task[handler.name] = setTimeout(TaskLoop, step, handler, step);
 }
 
 function TaskCreate(handler, step) {
-	var wait;	
-	if( task[handler.name]==undefined )
-		 wait = 500;	//初めての時は、とりあえずスタートさせる
-    else wait = Math.max(500, step - Date.now() % step);
-	task[handler.name] = setTimeout(TaskLoop, wait, handler, step);
+  if (!task[handler.name]) {
+    task[handler.name] = setTimeout(TaskLoop, step, handler, step);
+  }
 }
 
-function TaskDelete(handler){
-    clearInterval(task[handler.name]);
-    task[handler.name] == null;
+function TaskDelete(handler) {
+  clearTimeout(task[handler.name]);
+  task[handler.name] = null;
 }
 
 //+===================+
@@ -330,17 +293,16 @@ function showShortCut() {
     setClipB( buf );
 }
 
-//
-function pasteTo(id){
-	if(navigator.clipboard){
-		navigator.clipboard.readText()
-		.then(function(text){
-			document.getElementById(id).value = text;
-		});
-	}
-}
-function setClipB(text){
-	if(navigator.clipboard)
-		navigator.clipboard.writeText(text);
+async function speak(txt='', lang='', volume=1.0, rate=1.0, pitch=1.0) {
+    if(txt.length>0) 	speakBuff.push(txt);
+    while(speakBuff.length>0) {
+            var uttr    = new SpeechSynthesisUtterance(); 
+            uttr.text   = speakBuff.shift();
+            uttr.lang   = lang  == ''? 'ja-JP' : lang;
+            uttr.volume = volume== 0 ? 1.0     : volume;
+            uttr.rate   = rate  == 0 ? 1.0     : rate;
+            uttr.pitch  = pitch == 0 ? 1.0     : pitch;
+            await speechSynthesis.speak(uttr);
+    }
 }
 	
