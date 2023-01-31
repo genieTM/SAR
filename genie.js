@@ -207,69 +207,6 @@ function WakeupGenie() {
     d.body.insertBefore(el, d.body.firstChild);
 
     genie = d.getElementById('genie');
-/*----------------------------------------------------------
-    genie.addEventListener('dragenter', function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-    });
-    genie.addEventListener('dragover', function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-    });
-
-    // Get file data on drop, and save to localStorage
-    // THe file should be un-encrypted .js file
-    genie.addEventListener('drop', function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-        var files = e.dataTransfer.files;
-        for (var i = 0; i < files.length; i++) {
-            var file = files[i];
-            fname = file.name;
-            if (fname.slice(-3) == '.js') {
-                var reader = new FileReader();
-                reader.fname = fname;
-                reader.onload = function (theFile) {
-                    var fname = this.fname;
-                    var text = reader.result.trim();
-                    //即時実行アロー関数形式なら (()=>{  })();
-                    var p_ = text.indexOf("(()=>{");
-                    var q_ = text.indexOf("})()");
-                    if (p_ == 0 && q_ > 0) {
-                        text = text.slice(p_ + 6, q_);
-                        eval(text);
-                    } else if (text.indexOf('javascript:') == 0) {
-                        eval(text);
-                    } else
-                        setLocalStorage(fname, text);
-                }
-                reader.readAsText(file);
-            }
-        }
-    });
-    genie.addEventListener('blur', function (e) {
-        var text = genie.value;
-        var p_ = text.indexOf("(()=>{");
-        var q_ = text.indexOf("})()");
-        if (text.slice(-1) == '=') {
-            genie.value = genie.value +' '+ eval(text.slice(0, -1));
-			setTimeout((()=>{genie.value='';}),2000);
-		}if (text.slice(-1) == ';') {
-            eval(text);
-            genie.value = '';
-        } else if (p_ == 0 && q_ > 0) {
-            text = text.slice(p_ + 6, q_);
-            lastCmd = text;
-            eval(text);
-            genie.value = '';
-        } else if (text.indexOf('javascript:') == 0) {
-            text = text.slice(11);
-            lastCmd = text;
-            eval(text);
-            genie.value = '';
-        }
-    });
-----------------------------------------------------------*/
 }
 function clearLStorage_js(){
 	var sKey,js=[]; 
