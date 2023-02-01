@@ -48,13 +48,16 @@ function Genie() {
 
 async function downloadFile(url) {
   const response = await fetch(url);
-  const data = await response.blob();
-  localStorage.setItem(url, data);
+  return response.text();
 }
+
 
 async function downloadFiles() {
   for (const url of URLs) {
-    await downloadFile(url);
+  const result = await downloadFile('https://cdn.jsdelivr.net/npm/crypto-js@4.0.0/core.min.js');
+  var name = u.slice(u.lastIndexOf('/') + 1);
+  appendScript(name, result);
+  localStorage.setItem(name, result);
   }
 }
 
