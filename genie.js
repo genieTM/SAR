@@ -51,13 +51,14 @@ async function downloadFile(url) {
   return response.text();
 }
 
-
+//localStorage または downloadした.jsファイルを<script>として追加
 async function downloadFiles() {
   for (const url of URLs) {
-  const result = await downloadFile('https://cdn.jsdelivr.net/npm/crypto-js@4.0.0/core.min.js');
-  var name = url.slice(url.lastIndexOf('/') + 1);
-  appendScript(name, result);
-  localStorage.setItem(name, result);
+    var name = url.slice(url.lastIndexOf('/') + 1);
+    var source = localStorage.getItem(name);
+    if(!source)
+        source = await downloadFile(url);
+    appendScript(name, source);
   }
 }
 
