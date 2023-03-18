@@ -26,11 +26,7 @@ function Genie() {
     if (typeof(URLs) == 'undefined')
         URLs = [];
     if (!document.getElementById('aes.js')) {
-        URLs = ['https://qrde.github.io/SAR/mousetrap.js',
-		'https://cdn.jsdelivr.net/npm/crypto-js@4.0.0/core.min.js',
-		'https://cdn.jsdelivr.net/npm/crypto-js@4.0.0/cipher-core.min.js',
-		'https://cdn.jsdelivr.net/npm/crypto-js@4.0.0/aes.min.js',
-		'https://cdn.jsdelivr.net/npm/crypto-js@4.0.0/pbkdf2.min.js'
+        URLs = ['https://qrde.github.io/SAR/mousetrap.js'
 		].concat(URLs);
     }
     //保存されたPWDがあれば、それを優先させる
