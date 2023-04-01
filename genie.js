@@ -278,7 +278,7 @@ function addShortCut(keys, func) {
 	else addShortCut_Org(keys.split('').join(' '), func);	
 }
 function addShortCut_Org(keys, func) {
-		eval("Mousetrap.bind('keys',function(e){ fnc })".replace('keys', keys).replace('fnc', func));
+		eval(`Mousetrap.bind('${keys}',function(e){ ${func} })`);
 		Short_Cut[keys] = func;
 }
 
