@@ -252,12 +252,15 @@ function task_M5()
 //const sleep      = msec => new Promise(resolve => setTimeout(resolve, msec));
 function TaskLoop(handler, step) {
   handler();
-  task[handler.name] = setTimeout(TaskLoop, step, handler, step);
+  const currentTime = new Date().getTime();
+　const nextExecutionTime = Math.ceil(currentTime / step) * step;
+  const delay = nextExecutionTime - currentTime;
+  task[handler.name] = setTimeout(TaskLoop, delay, handler, step);
 }
 
 function TaskCreate(handler, step) {
   if (!task[handler.name]) {
-    task[handler.name] = setTimeout(TaskLoop, step, handler, step);
+    task[handler.name] = setTimeout(TaskLoop, 0, handler, step);
   }
 }
 
