@@ -296,15 +296,19 @@ function showShortCut() {
     setClipB( buf );
 }
 
-async function speak(txt='', lang='', volume=1.0, rate=1.0, pitch=1.0) {
+async function speak(txt='', lang='ja-JP', volume=1.0, rate=1.0, pitch=1.0) {
+    if(gSpeakMQTT) {
+        REDsend('TTS',txt);
+        return;
+    }
     if(txt.length>0) 	speakBuff.push(txt);
     while(speakBuff.length>0) {
             var uttr    = new SpeechSynthesisUtterance(); 
             uttr.text   = speakBuff.shift();
-            uttr.lang   = lang  == ''? 'ja-JP' : lang;
-            uttr.volume = volume== 0 ? 1.0     : volume;
-            uttr.rate   = rate  == 0 ? 1.0     : rate;
-            uttr.pitch  = pitch == 0 ? 1.0     : pitch;
+            uttr.lang   = lang;
+            uttr.volume = volume;
+            uttr.rate   = rate;
+            uttr.pitch  = pitch;
             await speechSynthesis.speak(uttr);
     }
 }
