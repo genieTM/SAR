@@ -166,8 +166,8 @@ function WakeupGenie() {
     el = document.createElement('div');
     el.id = 'genie-block';
     el.setAttribute('style', 'width:100%');
-    var buf ='<input id="tglGenie" type="button" value="" title="tglGenie" onclick="showHideGenie()" style="z-index:110;position:absolute;top:0px;left:0px;width: 9px;height: 26px;background-color:#4040ff;padding-left: 0px;padding-right: 0px;border-left-width: 1px;border-right-width: 1px;border-bottom-width: 1px;border-top-width: 1px;padding-top: 2px;">'
-			+ '<input id="genie" value="" title="genie" style="z-index:-110; position:absolute; left:8px;top:-1px;width:100%; height:20px; color:#404040; background-color:#efefff"></input>';
+    var buf ='<input id="tglGenie" type="button" value="" title="tglGenie" onclick="showHideGenie()" style="z-index:110;position:absolute;top:0px;left:0px;width: 9px;height: 26px; background-color:#2020B0;padding-left: 0px;padding-right: 0px;border-left-width: 1px;border-right-width: 1px;border-bottom-width: 1px;border-top-width: 1px;padding-top: 2px;">'
+			+ '<input id="genie" value="" title="genie" style="z-index:-110; position:absolute; left:8px;top:0px;width:100%; height:22px; color:white; background-color:#4040ff"></input>';
     el.innerHTML = buf;
     d.body.insertBefore(el, d.body.firstChild);
 
@@ -178,8 +178,8 @@ function showHideGenie() {
 	var _genie=document.getElementById('genie');
 	var _tglgenie=document.getElementById('tglGenie');
 	if(_genie.style.zIndex<0){
-		_tglgenie.style.backgroundColor="#4040ff";
-		_genie.style.backgroundColor="#efefff";
+		_tglgenie.style.backgroundColor="white";
+		_genie.style.backgroundColor="#2020B0";
 		_genie.style.zIndex=110;
 		// _tglgenie.style.zIndex=101;
 	}else{
@@ -192,7 +192,7 @@ function showGenie() {
 	var _genie=document.getElementById('genie');
 	var _tglgenie=document.getElementById('tglGenie');
     _tglgenie.style.backgroundColor="#4040ff";
-    _genie.style.backgroundColor="#efefff";
+    _genie.style.backgroundColor="#3030b0";
     _genie.style.zIndex=110;
 }
 function hideGenie() {
@@ -210,21 +210,28 @@ function clearGenie() {
         }
     }
 }
-
-function popupGenie(msg,msec){
+var idPopG=0;
+function popupGenie(msg,msec=10000){
+    if(typeof idPopG != 'undefined') clearTimeout(idPopG)
     var genie=document.getElementById('genie'); 
     genie.value = msg;
-    genie.style.backgroundColor = "#efefff";
+    genie.style.color = "white";
+	genie.style.backgroundColor = "#202080";
     genie.style.zIndex=110;
-    setTimeout((()=>{var genie=document.getElementById('genie'); genie.value=''; genie.style.zIndex=-110;}),msec?msec:3000);
+	genie.style.fontSize = "16px";
+	genie.style.height = "20px";
+    idPopG=setTimeout((()=>{var genie=document.getElementById('genie'); genie.value=''; genie.style.zIndex=-110;}),msec>200?msec:msec*1000);
 }
-
+function popG(msg,msec=5000){
+	popupGenie(msg,msec)
+}
 //+===================+
 //+=== TASK Section =======+
 //+===================+
 // globals
 var task={};
 var TCB_S1={};
+var TCB_S20={};
 var TCB_M1={}; 
 var TCB_M5={};
 // usage
@@ -236,6 +243,10 @@ var TCB_M5={};
 function task_S1()
 {
      Object.keys(TCB_S1).forEach(key => TCB_S1[key]());     //TCB_S1に登録されたtaskを実行
+}
+function task_S20()
+{
+     Object.keys(TCB_S20).forEach(key => TCB_S20[key]());     //TCB_S20に登録されたtaskを実行
 }
 function task_M1()
 {
@@ -312,4 +323,3 @@ async function speak(txt='', lang='ja-JP', volume=1.0, rate=1.0, pitch=1.0) {
             await speechSynthesis.speak(uttr);
     }
 }
-	
