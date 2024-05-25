@@ -167,7 +167,7 @@ function WakeupGenie() {
     el.id = 'genie-block';
     el.setAttribute('style', 'width:100%');
     var buf ='<input id="tglGenie" type="button" value="" title="tglGenie" onclick="showHideGenie()" style="z-index:110;position:absolute;top:0px;left:0px;width: 9px;height: 26px; background-color:#2020B0;padding-left: 0px;padding-right: 0px;border-left-width: 1px;border-right-width: 1px;border-bottom-width: 1px;border-top-width: 1px;padding-top: 2px;">'
-			+ '<input id="genie" value="" title="genie" style="z-index:-110; position:absolute; left:8px;top:0px;width:100%; height:22px; color:white; background-color:#4040ff"></input>';
+			+ '<input id="genie" value="" title="genie" style="z-index:-110; position:absolute; left:8px;top:0px;width:100%; height:22px; color:white; background-color:#202080"></input>';
     el.innerHTML = buf;
     d.body.insertBefore(el, d.body.firstChild);
 
@@ -175,25 +175,27 @@ function WakeupGenie() {
 }
 
 function showHideGenie() {
-	var _genie=document.getElementById('genie');
-	var _tglgenie=document.getElementById('tglGenie');
-	if(_genie.style.zIndex<0){
-		_tglgenie.style.backgroundColor="white";
-		_genie.style.backgroundColor="#2020B0";
-		_genie.style.zIndex=110;
+	var genie=document.getElementById('genie');
+	var tglgenie=document.getElementById('tglGenie');
+	if(genie.style.zIndex<0){
+		tglgenie.style.backgroundColor="white";
+		genie.style.backgroundColor="#2020B0";
+                genie.style.color = "white";
+		genie.style.zIndex=110;
 		// _tglgenie.style.zIndex=101;
 	}else{
-		_genie.style.zIndex=-110;
-		_genie.style.backgroundColor="#000000";
+		genie.style.zIndex=-110;
+		genie.style.backgroundColor="#000000";
 		// _tglgenie.style.zIndex=-101;
 	}
 }
 function showGenie() {
-	var _genie=document.getElementById('genie');
-	var _tglgenie=document.getElementById('tglGenie');
-    _tglgenie.style.backgroundColor="#4040ff";
-    _genie.style.backgroundColor="#3030b0";
-    _genie.style.zIndex=110;
+    var genie=document.getElementById('genie');
+    var tglgenie=document.getElementById('tglGenie');
+    tglgenie.style.backgroundColor="#4040ff";
+    genie.style.color = "white";
+    genie.style.backgroundColor="#202080";
+    genie.style.zIndex=110;
 }
 function hideGenie() {
 	var _genie=document.getElementById('genie');
@@ -216,10 +218,10 @@ function popupGenie(msg,msec=10000){
     var genie=document.getElementById('genie'); 
     genie.value = msg;
     genie.style.color = "white";
-	genie.style.backgroundColor = "#202080";
+    genie.style.backgroundColor = "#202080";
     genie.style.zIndex=110;
-	genie.style.fontSize = "16px";
-	genie.style.height = "20px";
+    genie.style.fontSize = "16px";
+    genie.style.height = "20px";
     idPopG=setTimeout((()=>{var genie=document.getElementById('genie'); genie.value=''; genie.style.zIndex=-110;}),msec>200?msec:msec*1000);
 }
 function popG(msg,msec=5000){
