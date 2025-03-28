@@ -259,12 +259,14 @@ function task_M5()
      Object.keys(TCB_M5).forEach(key => TCB_M5[key]());     //TCB_M5に登録されたtaskを実行
 }
 
+
 //=============
 //=== TASK Common    
 //=============
 //const sleep      = msec => new Promise(resolve => setTimeout(resolve, msec));
 function TaskLoop(handler, step) {
   handler();
+  clearTimuout(task[handler.name]);
   const currentTime = new Date().getTime();
 　const nextExecutionTime = Math.ceil(currentTime / step) * step;
   const delay = nextExecutionTime - currentTime;
